@@ -22,6 +22,22 @@ class Category(models.Model):
         verbose_name_plural = "Categories"
 
 
+class Tag(models.Model):
+    """Represents a label that can be attached to products."""
+
+    name = models.CharField(max_length=50, unique=True, null=False, blank=False)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ["name"]
+        verbose_name_plural = "Tags"
+
+    def __str__(self) -> str:
+        """Return the tag name as its string representation."""
+        return self.name
+
 class Product(models.Model):
 
     category = models.ForeignKey(Category, null=True, on_delete=models.DO_NOTHING)
@@ -72,3 +88,5 @@ class Comment(models.Model):
     def __str__(self):
         who = self.user.username if self.user else (self.guest_name or "Guest")
         return f"{who} - {self.rating}★"
+
+
