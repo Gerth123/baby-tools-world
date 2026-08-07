@@ -38,6 +38,7 @@ class Tag(models.Model):
         """Return the tag name as its string representation."""
         return self.name
 
+
 class Product(models.Model):
 
     category = models.ForeignKey(Category, null=True, on_delete=models.DO_NOTHING)
@@ -89,5 +90,3 @@ class Comment(models.Model):
     def __str__(self):
         who = self.user.username if self.user else (self.guest_name or "Guest")
         return f"{who} - {self.rating}★"
-
-
