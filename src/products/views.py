@@ -57,11 +57,12 @@ def product_detail(request, category_slug, pk):
                 comment.save()
                 messages.success(request, "Thank you for your rating.")
 
+            request.session["comment_just_submitted"] = True
             return redirect("product_detail", category_slug=category_slug, pk=product.pk)
     else:
-        # Pre-fill form for authenticated user with existing comment (if any)
+        # Pre-fill form for authenticated user with existing comment (if any, and not just submitted)
         initial = {}
-        if request.user.is_authenticated:
+        if request.user.is_authenticated and not request.session.pop("comment_just_submitted", False):
             existing = product.comments.filter(user=request.user).first()
             if existing:
                 initial = {"rating": existing.rating, "text": existing.text}
