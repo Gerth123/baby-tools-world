@@ -19,7 +19,7 @@ In order to seamlessly interact with the repository and the software it contains
 In order to quickly get started with the project follow these steps:
 
 1. clone the repository
-1. nagivate to the repository
+1. navigate to the repository
 1. (optional) create a virtual environment with `python -m venv my-venv`
     1. activate the virtual environment:
         - on Windows run: `my-venv/Scripts/activate`
@@ -46,7 +46,7 @@ In order to quickly get started with the project follow these steps:
 
 The project is modularized into several apps:
 
-- `products`: Manages product listings and categories
+- `products`: Manages product listings, categories, and tags.
 - `users`: Handles user authentication and registration.
 
 Each app has its own `models.py`, `views.py`, `urls.py`, and `admin.py` files to encapsulate its functionality.
@@ -148,6 +148,12 @@ In order to run that comand go the the directory, where your `manage.py` file is
 ```bash
 python manage.py seed_db
 ```
+
+### Product tags
+
+Products can optionally be tagged (e.g. `outdoor`, `toys`). Tags are managed via the Django admin panel under `/admin/products/tag/`.
+
+On a product's detail page, its tags are shown above the "Buy now" button. If a product has no tags, a "no tags available" label is shown instead.
 
 ### Containerization
 
