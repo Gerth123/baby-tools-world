@@ -7,6 +7,7 @@ from .models import Category, Comment, Product
 
 
 def product_list(request, category_slug=None):
+    """Render the product list, optionally filtered by category."""
     categories = Category.objects.all()
     products = Product.objects.select_related("category").annotate(
         avg_rating=Avg("comments__rating"), total_ratings=Count("comments")
@@ -17,6 +18,7 @@ def product_list(request, category_slug=None):
 
 
 def product_detail(request, category_slug, pk):
+    """Render a product's detail page and handle rating/comment submission."""
     product = get_object_or_404(
         Product.objects.select_related("category").annotate(
             avg_rating=Avg("comments__rating"), total_ratings=Count("comments")
