@@ -6,6 +6,22 @@ The project was developed for educational purposes only and therefore has no cla
 > [!NOTE]
 > This project assumes you already know the python programming language
 
+## Table of Contents
+
+- [Prerequisites](#prerequisites)
+- [Quickstart](#quickstart)
+- [Project Structure](#project-structure)
+  - [Apps Overview](#apps-overview)
+- [Usage](#usage)
+  - [Features](#features)
+  - [Configuration](#configuration)
+  - [Running the linting tools](#running-the-linting-tools)
+  - [Testing](#testing)
+  - [Running with a WSGI Server](#running-with-a-wsgi-server)
+  - [Seeding the application with data](#seeding-the-application-with-data)
+  - [Product tags](#product-tags)
+  - [Containerization](#containerization)
+
 ## Prerequisites
 
 In order to seamlessly interact with the repository and the software it contains you need to following tools preinstalled:
@@ -54,6 +70,10 @@ Each app has its own `models.py`, `views.py`, `urls.py`, and `admin.py` files to
 ## Usage
 
 In this section you can read about the project a bit more in detail.
+
+### Features
+
+Baby Tools World lets visitors browse products by category, view product details, and leave a star rating with an optional comment. Registered users can update their own rating at any time, while guests can leave one-off ratings. Products can also be tagged (e.g. `outdoor`, `toys`) to give shoppers a quick sense of what a product is about.
 
 ### Configuration
 
