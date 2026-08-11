@@ -7,6 +7,7 @@ from .models import Category, Comment, Product
 
 
 def product_list(request, category_slug=None):
+    """Render the product list, optionally filtered by category."""
     categories = Category.objects.all()
     products = Product.objects.select_related("category").annotate(
         avg_rating=Avg("comments__rating"), total_ratings=Count("comments")
@@ -17,6 +18,7 @@ def product_list(request, category_slug=None):
 
 
 def product_detail(request, category_slug, pk):
+    """Render a product's detail page and handle rating/comment submission."""
     product = get_object_or_404(
         Product.objects.select_related("category").annotate(
             avg_rating=Avg("comments__rating"), total_ratings=Count("comments")
@@ -57,11 +59,12 @@ def product_detail(request, category_slug, pk):
                 comment.save()
                 messages.success(request, "Thank you for your rating.")
 
+            request.session["comment_just_submitted"] = True
             return redirect("product_detail", category_slug=category_slug, pk=product.pk)
     else:
-        # Pre-fill form for authenticated user with existing comment (if any)
+        # Pre-fill form for authenticated user with existing comment (if any, and not just submitted)
         initial = {}
-        if request.user.is_authenticated:
+        if request.user.is_authenticated and not request.session.pop("comment_just_submitted", False):
             existing = product.comments.filter(user=request.user).first()
             if existing:
                 initial = {"rating": existing.rating, "text": existing.text}

@@ -6,6 +6,22 @@ The project was developed for educational purposes only and therefore has no cla
 > [!NOTE]
 > This project assumes you already know the python programming language
 
+## Table of Contents
+
+- [Prerequisites](#prerequisites)
+- [Quickstart](#quickstart)
+- [Project Structure](#project-structure)
+  - [Apps Overview](#apps-overview)
+- [Usage](#usage)
+  - [Features](#features)
+  - [Configuration](#configuration)
+  - [Running the linting tools](#running-the-linting-tools)
+  - [Testing](#testing)
+  - [Running with a WSGI Server](#running-with-a-wsgi-server)
+  - [Seeding the application with data](#seeding-the-application-with-data)
+  - [Product tags](#product-tags)
+  - [Containerization](#containerization)
+
 ## Prerequisites
 
 In order to seamlessly interact with the repository and the software it contains you need to following tools preinstalled:
@@ -18,22 +34,67 @@ In order to seamlessly interact with the repository and the software it contains
 
 In order to quickly get started with the project follow these steps:
 
-1. clone the repository
-1. nagivate to the repository
-1. (optional) create a virtual environment with `python -m venv my-venv`
-    1. activate the virtual environment:
-        - on Windows run: `my-venv/Scripts/activate`
-        - on MacOS/Linux run: `source my-venv/bin/activate`
-1. install the project dependencies with `pip install -r requirements.txt`
-1. configure required application environment variables
-    - `cp example.env .env`
-1. go to the `src` directory via `cd src`
-1. prepare the database (create and apply migrations)
-    1. `python manage.py makemigrations`
-    1. `python manage.py migrate`
-1. start the application with `python manage.py runserver`
-1. verify the application is running by visiting `localhost:8000`
-1. (optional) create a superuser by running: `python manage.py createsuperuser`
+**1. Clone the repository and navigate into it:**
+
+```bash
+git clone git@github.com:Gerth123/baby-tools-world.git
+cd baby-tools-world
+```
+
+**2. (optional) Create and activate a virtual environment:**
+
+```bash
+python -m venv my-venv
+```
+
+On Windows:
+
+```bash
+my-venv/Scripts/activate
+```
+
+On MacOS/Linux:
+
+```bash
+source my-venv/bin/activate
+```
+
+**3. Install the project dependencies:**
+
+```bash
+pip install -r requirements.txt
+```
+
+**4. Configure the required application environment variables:**
+
+```bash
+cp example.env .env
+```
+
+> [!WARNING]
+> The `.env` file contains sensitive configuration values (e.g. host and debug settings). Never commit a real `.env` file to the repository, and make sure to review and change these values before deploying the project to production.
+
+**5. Prepare the database (create and apply migrations):**
+
+```bash
+cd src
+python manage.py makemigrations
+python manage.py migrate
+```
+
+**6. Start the application:**
+
+```bash
+python manage.py runserver
+```
+
+Verify the application is running by visiting `localhost:8000`.
+
+**7. (optional) Create a superuser:**
+
+```bash
+python manage.py createsuperuser
+```
 
 ## Project Structure
 
@@ -46,7 +107,7 @@ In order to quickly get started with the project follow these steps:
 
 The project is modularized into several apps:
 
-- `products`: Manages product listings and categories
+- `products`: Manages product listings, categories, and tags.
 - `users`: Handles user authentication and registration.
 
 Each app has its own `models.py`, `views.py`, `urls.py`, and `admin.py` files to encapsulate its functionality.
@@ -55,16 +116,27 @@ Each app has its own `models.py`, `views.py`, `urls.py`, and `admin.py` files to
 
 In this section you can read about the project a bit more in detail.
 
+### Features
+
+Baby Tools World lets visitors browse products by category, view product details, and leave a star rating with an optional comment. Registered users can update their own rating at any time, while guests can leave one-off ratings. Products can also be tagged (e.g. `outdoor`, `toys`) to give shoppers a quick sense of what a product is about.
+
 ### Configuration
 
 To configure the project, follow these steps:
 
-1. Copy the example environment file to the `src` directory: `cp example.env src/.env`.
-    - the file needs to be stored next to the manage.py file in order to function properly.
-    Other locations might also work but there is no guarantuee, and in last consequence you will need to update to project correspondingly.
-2. Open your `src/.env` and set the required environment variables:
-    - `ALLOWED_HOSTS`: provide a list of comma-separated values for the allowed host configuration => Defaults to `'localhost, 127.0.0.1, 0.0.0.0'`
-    - `DEBUG`: Set to `True` for development or `False` for production. Defaults to `True`
+**1. Copy the example environment file to the `src` directory:**
+
+```bash
+cp example.env src/.env
+```
+
+> [!WARNING]
+> The `.env` file needs to be stored next to the `manage.py` file in order to function properly. Other locations might also work but there is no guarantee. This file may contain sensitive values, so it should never be committed to the repository and should be reviewed before any production deployment.
+
+**2. Open your `src/.env` and set the required environment variables:**
+
+- `ALLOWED_HOSTS`: provide a list of comma-separated values for the allowed host configuration => Defaults to `'localhost, 127.0.0.1, 0.0.0.0'`
+- `DEBUG`: Set to `true` for development or `false` for production. Defaults to `true`
 
 ### Running the linting tools
 
@@ -115,7 +187,11 @@ baby-tool-world/src/products
 
 To run the tests with the `django testrunner` you can use the following command:
 
-- `python manage.py test`, you need to run this in the folder where `manage.py` lives -> `src`
+```bash
+python manage.py test
+```
+
+You need to run this in the folder where `manage.py` lives -> `src`
 
 For more information about testing, refer to the testing documentation in this repository, see [testing documentation](./docs/testing.md)
 
@@ -143,11 +219,17 @@ This section will guide you through the process of providing an initial seed to 
 
 To initially seed the application you can run the management command `seed_db` to fill the database with some categories and testing products.
 
-In order to run that comand go the the directory, where your `manage.py` file is stored and run the following command:
+In order to run that command go to the directory where your `manage.py` file is stored and run the following command:
 
 ```bash
 python manage.py seed_db
 ```
+
+### Product tags
+
+Products can optionally be tagged (e.g. `outdoor`, `toys`). Tags are managed via the Django admin panel under `/admin/products/tag/`.
+
+On a product's detail page, its tags are shown above the "Buy now" button. If a product has no tags, a "no tags available" label is shown instead.
 
 ### Containerization
 
