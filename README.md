@@ -48,11 +48,13 @@ python -m venv my-venv
 ```
 
 On Windows:
+
 ```bash
 my-venv/Scripts/activate
 ```
 
 On MacOS/Linux:
+
 ```bash
 source my-venv/bin/activate
 ```
